@@ -8,13 +8,14 @@ connect();
 
 export async function POST(request: NextRequest){
     try {
-        // grab th etoken from req.body
+        // grab the token from req.body
         const reqBody = await request.json();
         const { token } = reqBody;
         console.log(token);
 
         const user = await User.findOne({verifyToken: token, verifyTokenExpiry: {$gt: Date.now()}}); // gt means greater than
-        
+        console.log(user);
+
         if(!user){
             return NextResponse.json({error: "Invalid token"}, {"status": 400});
         }
